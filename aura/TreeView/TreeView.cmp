@@ -1,0 +1,28 @@
+<!--
+ - Created by Archana on 15-06-2017.
+ -->
+
+<aura:component description="TreeView" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:attribute name="buttonstate" type="Boolean" default="false"/>
+    <aura:attribute name="treeItems" type="Node[]" access="public"/>
+    <aura:attribute name="level" type="Integer"></aura:attribute>
+    <aura:attribute name="parentPath" type="String"/>
+    <aura:iteration items="{!v.treeItems}" var="item" indexVar="i">
+        <li role="treeitem" aria-level="{!v.level+1}" aria-expanded="{!item.IsExpanded?true:false}">
+            <div class="slds-tree__item">
+                <button class="{!item.Children!=null?'slds-button slds-button_icon slds-button_icon slds-m-right_x-small':'slds-button slds-button_icon slds-button_icon slds-m-right_x-small slds-is-disabled'}"
+                        aria-controls="{!i}" title="Toggle"
+                        onclick="{!c.handleClick}">
+                    <c:svgIcon xlinkHref="/resource/LDS_Resource/assets/icons/utility-sprite/svg/symbols.svg#chevronright" class="slds-button__icon slds-button__icon_small" ariaHidden="true"></c:svgIcon>
+                    <span class="slds-assistive-text">Toggle</span>
+                </button>
+                <a href="javascript:void(0);" id="{!v.parentPath+'-'+i+'__label'}" tabindex="-1" role="presentation" class="slds-truncate" title="Tree Item">{!item.Name}</a>
+            </div>
+        </li>
+        <aura:renderIf isTrue="{!item.Children!=null}">
+            <ul class="{!item.IsExpanded?'slds-isexpanded':'slds-is-collapsed'}" role="group" aria-labelledby="{!v.parentPath+'-'+i+'__label'}">
+                <c:TreeView treeItems="{!item.Children}" level="{!v.level+1}" parentPath="{!v.parentPath+'-'+i}"/>
+            </ul>
+        </aura:renderIf>
+    </aura:iteration>
+</aura:component>

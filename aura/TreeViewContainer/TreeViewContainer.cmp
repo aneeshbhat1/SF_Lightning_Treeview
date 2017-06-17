@@ -1,0 +1,33 @@
+<!--
+ - Created by Archana on 17-06-2017.
+ -->
+
+<aura:component description="TreeViewContainer" implements="force:appHostable,flexipage:availableForAllPageTypes" controller="TreeDataController">
+    <aura:attribute name="treeItems" type="Node[]" />
+    <aura:attribute name="level" type="Integer" default="1"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="buttonstate" type="Boolean" default="false"/>
+    <div class="slds-tree_container" role="application">
+        <ul class="slds-tree" aura:id="parent" role="tree" aria-labelledby="treeheading">
+            <aura:iteration items="{!v.treeItems}" var="item" indexVar="i">
+                <li role="treeitem" aria-level="1" id="{!'tree0-node'+i}" aria-expanded="{!item.IsExpanded?true:false}">
+                    <div class="slds-tree__item">
+                        <button class="{!item.Children!=null?'slds-button slds-button_icon slds-button_icon slds-m-right_x-small':'slds-button slds-button_icon slds-button_icon slds-m-right_x-small slds-is-disabled'}"
+                                title="Toggle"
+                                aria-controls="{!i}"
+                                onclick="{!c.handleClick}">
+                            <c:svgIcon xlinkHref="/resource/LDS_Resource/assets/icons/utility-sprite/svg/symbols.svg#chevronright" class="slds-button__icon slds-button__icon_small" ariaHidden="true"></c:svgIcon>
+                            <span class="slds-assistive-text">Toggle</span>
+                        </button>
+                        <a id="{!'tree0-node'+i+'__label'}" href="javascript:void(0);" tabindex="-1" role="presentation" class="slds-truncate" title="Tree Branch">{!item.Name}</a>
+                    </div>
+                    <aura:renderIf isTrue="{!item.Children!=null}">
+                        <ul id="{!'tree0-node'+i+'child'}" class="{!item.IsExpanded?'slds-isexpanded':'slds-is-collapsed'}" role="group" aria-labelledby="{!'tree0-node'+i+'__label'}">
+                            <c:TreeView treeItems="{!item.Children}" level="{!v.level}" parentPath="{!'tree0-node'+i}"/>
+                        </ul>
+                    </aura:renderIf>
+                </li>
+            </aura:iteration>
+        </ul>
+    </div>
+</aura:component>
