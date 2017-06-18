@@ -8,3 +8,6 @@ The first level nodes have a slightly different style as compared to the nodes i
 
 The 'click' behaviour(icon change + expand/collapse) of the node is handled using a property in the <b>'Node'</b> object instead of accessing the elements from the DOM directly.
 
+The treeview looks like the snapshot below:
+
+![Alt text](https://github.com/aneeshbhat1/SF_Lightning_Treeview/blob/master/Treeview.png)
